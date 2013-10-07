@@ -14,6 +14,7 @@
         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.5.min.js" type="text/javascript"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.js"></script>
+        <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.editinplace.js"></script>
         <script>
             $(function() {
                 $( "#sortable" ).sortable();
@@ -36,7 +37,7 @@
                     <ul  id="sortable" class="nav nav-list">
                         <?php foreach($contacts as $contact){ ?>
                             <li class="ui-state-default">
-                                <span><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
+                                <span class="editme1"><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
                             </li>
                             <?php } ?>
                         <li class="active"><a href="#">Home</a></li>
@@ -52,7 +53,7 @@
                  <div class="span8">
                      <?php //var_dump( get_class_methods( User::model() ) ); ?>
 
-                     <div>photo <span>Name</span></div>
+                     <div class="editme1">photo Name</div>
                      <div>
                      <table border="1">
                          <tr>
@@ -70,3 +71,19 @@
         </div>
     </body>
 </html>
+<script>
+$(document).ready(function(){
+	
+	// All examples use the commit to function interface for ease of demonstration.
+	// If you want to try it against a server, just comment the callback: and 
+	// uncomment the url: lines.
+	
+	// The most basic form of using the inPlaceEditor
+	$(".editme1").editInPlace({
+		callback: function(unused, enteredText) { return enteredText; },
+		// url: './server.php',
+		//show_buttons: true
+	});
+});
+
+</script>
