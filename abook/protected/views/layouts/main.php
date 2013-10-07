@@ -36,8 +36,7 @@
                     <ul  id="sortable" class="nav nav-list">
                         <?php foreach($contacts as $contact){ ?>
                             <li class="ui-state-default">
-                                <span><a href="#"><?php echo $contact->getAttribute('firstname'); ?></a></span>
-                                <span><a href="#"><?php echo $contact->getAttribute('lastname'); ?></a></span>
+                                <span><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
                             </li>
                             <?php } ?>
                         <li class="active"><a href="#">Home</a></li>
@@ -55,9 +54,15 @@
 
                      <div>photo <span>Name</span></div>
                      <div>
-                     <table>
-                         <tr><td>email</td></tr>
-                         <tr><td>phone</td></tr>
+                     <table border="1">
+                         <tr>
+							<td>email</td>
+							<td></td>
+						</tr>
+                         <tr>
+							<td>phone</td>
+							<td></td>
+						</tr>
                      </table>
                      </div>
                  </div>
