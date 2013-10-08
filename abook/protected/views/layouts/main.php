@@ -46,7 +46,7 @@
                         <li><a href="#">Google</a></li>
                     </ul>
                     <p class="text-center">
-                         <button class="btn">Add</button>&nbsp;
+                         <button id="add-new" class="btn">Add</button>&nbsp;
                          <button class="btn">Remove</button>
                      </p>
                  </div>
@@ -69,6 +69,14 @@
                  </div>
              </div>
         </div>
+        
+	<form id="new-user-form" style="display:none" >
+		Username: <input id = "" type="text" name="" /><br>
+		Lastname: <input id = "" type="text" name="" /><br>
+		Phone: <input id = "" type="text" name="" /><br>
+		Email: <input id = "" type="text" name="" /><br>
+		<button>Submit</button>
+    </form>
     </body>
 </html>
 <script>
@@ -84,6 +92,25 @@ $(document).ready(function(){
 		// url: './server.php',
 		//show_buttons: true
 	});
+	$('#add-new').click(function(){
+		$( "#new-user-form" ).dialog();
+	});
+	
+	$('#new-user-form button').click( function(e){
+		var q = e.target.value;
+		var data = $('form#new-user-form').serializeArray();
+		console.log(data);
+		$.ajax({
+			url: window.location.protocol + '//' + window.location.host + '/abook/adduser',
+			type: 'get',
+			dataType: 'json',
+			data: data,
+			success: function(data) {
+			}
+		});
+		return false;
+	});
+	
 });
 
 </script>

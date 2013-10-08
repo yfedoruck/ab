@@ -2,3 +2,4 @@
 /abook/assets/*
 !/abook/protected/runtime/
 /abook/protected/runtime/*
+assets
