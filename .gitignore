@@ -1,5 +1,4 @@
-!/abook/assets/
-/abook/assets/*
-!/abook/protected/runtime/
-/abook/protected/runtime/*
-assets
+!/assets/
+/assets/*
+!/protected/runtime/
+/protected/runtime/*

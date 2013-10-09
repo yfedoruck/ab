@@ -4,7 +4,8 @@ class AbookController extends Controller
 {
 	public function actionAdduser()
 	{
-		$this->render('adduser');
+		echo 'test';
+		//$this->render('adduser');
 	}
 
 	// Uncomment the following methods and override them if needed
