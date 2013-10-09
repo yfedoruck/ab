@@ -4,8 +4,17 @@ class AbookController extends Controller
 {
 	public function actionAdduser()
 	{
-		echo 'test';
-		//$this->render('adduser');
+		$user = User::model()->findByPk(Yii::app()->session['user_id']);
+		$contact = new Contact();
+		$contact->attributes = $_GET;
+		$contact->user_id = Yii::app()->session['user_id'];
+		try{
+			$contact->save();
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+
+		$this->renderJSON($contact->attributes);
 	}
 
 	// Uncomment the following methods and override them if needed

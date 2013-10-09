@@ -20,4 +20,34 @@ class Controller extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
+
+    public function beforeAction($action){
+        parent::beforeAction($action);
+        $app = Yii::app();
+        $id = $app->request->getQuery('user_id');
+        if( !$id && !Yii::app()->session['user_id'] ){
+            echo 'user_id not defined';
+            return false;
+        }
+        if( !Yii::app()->session['user_id'] ) {
+            Yii::app()->session['user_id'] = $id;
+        }
+        $user = User::model()->findByPk(Yii::app()->session['user_id']);
+        if( !$user ){
+            throw new CHttpException(404, 'User not exists.');
+        }
+        $data = $user->getAttributes();
+        if( !$data['username'] ){
+            throw new CHttpException(404, 'Username not exists.');
+        }
+        Yii::app()->session['username'] = $data['username'];
+        return true;
+    }
+
+    protected function renderJSON($data)
+    {
+        header('Content-type: application/json');
+        echo CJSON::encode($data);
+        Yii::app()->end();
+    }
 }

@@ -40,10 +40,10 @@
                                 <span class="editme1"><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
                             </li>
                             <?php } ?>
-                        <li class="active"><a href="#">Home</a></li>
+                        <!-- li class="active"><a href="#">Home</a></li>
                         <li><a href="#">Our Clients</a></li>
                         <li class="nav-header">Our Friend</li>
-                        <li><a href="#">Google</a></li>
+                        <li><a href="#">Google</a></li -->
                     </ul>
                     <p class="text-center">
                          <button id="add-new" class="btn">Add</button>&nbsp;
@@ -71,10 +71,10 @@
         </div>
         
 	<form id="new-user-form" style="display:none" >
-		Username: <input id = "" type="text" name="" /><br>
-		Lastname: <input id = "" type="text" name="" /><br>
-		Phone: <input id = "" type="text" name="" /><br>
-		Email: <input id = "" type="text" name="" /><br>
+		Username: <input type="text" name="firstname" /><br>
+		Lastname: <input type="text" name="lastname" /><br>
+		Phone: <input type="text" name="phone" /><br>
+		EMail: <input type="text" name="email" /><br>
 		<button>Submit</button>
     </form>
     </body>
@@ -98,7 +98,7 @@ $(document).ready(function(){
 	
 	$('#new-user-form button').click( function(e){
 		var q = e.target.value;
-		var data = $('form#new-user-form').serializeArray();
+		var data = $('form#new-user-form').serialize();
 		console.log(data);
 		$.ajax({
 			url: window.location.protocol + '//' + window.location.host + '/abook/adduser',
@@ -106,6 +106,10 @@ $(document).ready(function(){
 			dataType: 'json',
 			data: data,
 			success: function(data) {
+				$('#sortable li').last().after(
+				'<li class="ui-state-default">' + 
+					'<span class="editme1"><a href="#">' + data.firstname + '  '  + data.lastname +  '</a></span>' + 
+				'</li>');
 			}
 		});
 		return false;
