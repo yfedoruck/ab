@@ -66,7 +66,7 @@ $("#selectable").selectable({
                         </select>
                     <ul  id="selectable" class="nav nav-list">
                         <?php foreach($contacts as $contact){ ?>
-                            <li class="ui-widget-content">TEST
+                            <li class="ui-widget-content">
                                 <span class="editme1"><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
                             </li>
                             <?php } ?>
@@ -136,8 +136,8 @@ $(document).ready(function(){
             dataType: 'json',
             data: data,
             success: function(data) {
-                $('#sortable li').last().after(
-                '<li class="ui-state-default">' + 
+                $('#selectable li').last().after(
+                '<li class="ui-widget-content">' + 
                     '<span class="editme1"><a href="#">' + data.firstname + '  '  + data.lastname +  '</a></span>' + 
                 '</li>');
             }
