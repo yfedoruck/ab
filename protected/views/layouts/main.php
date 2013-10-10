@@ -37,18 +37,6 @@
                         );
                     }                   
                 });
-                
-$("#selectable").selectable({
-    selected: function(event, ui) {
-        $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected").each(
-            function(key,value){
-                $(value).find('*').removeClass("ui-selected");
-            }
-        );
-    }
-});
-
-
             });
         </script>
         <div class="”container”">
