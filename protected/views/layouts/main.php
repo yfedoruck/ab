@@ -48,13 +48,16 @@
                         <input type="text" placeholder="Search your contacts">
                       </fieldset>
                     </form>
+                    <?php $groups  = Ugroup::model()->findAllByAttributes( array('user_id' => 1) ); ?>
                     <?php $contacts  = Contact::model()->findAllByAttributes( array('user_id' => 1) ); ?>
                         <select class="nav-header">
-                            <option>All contacts<i class="icon-arrow-down"></i></option>
+                            <?php foreach ($groups as $group) { ?>
+                                <option data-grpid="<?php echo $group->id; ?>" ><?php echo $group->groupname; ?><i class="icon-arrow-down"></i></option>
+                            <?php } ?>
                         </select>
                     <ul  id="selectable" class="nav nav-list">
                         <?php foreach($contacts as $contact){ ?>
-                            <li class="ui-widget-content" data-cntid="<?php echo $contact->getAttribute('id') ?>">
+                            <li class="ui-widget-content" data-cntid="<?php echo $contact->getAttribute('id') ?>" data-cnt-grpid="<?php echo $contact->getAttribute('group_id') ?>">
                                 <span class="editme1"><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
                             </li>
                             <?php } ?>
