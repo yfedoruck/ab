@@ -54,7 +54,7 @@
                         </select>
                     <ul  id="selectable" class="nav nav-list">
                         <?php foreach($contacts as $contact){ ?>
-                            <li class="ui-widget-content">
+                            <li class="ui-widget-content" data-cntid="<?php echo $contact->getAttribute('id') ?>">
                                 <span class="editme1"><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
                             </li>
                             <?php } ?>
@@ -65,7 +65,7 @@
                     </ul>
                     <p class="text-center">
                          <button id="add-new" class="btn">Add</button>&nbsp;
-                         <button class="btn">Remove</button>
+                         <button id="rm-contact" class="btn">Remove</button>
                      </p>
                  </div>
                  <div class="span8">
@@ -125,7 +125,7 @@ $(document).ready(function(){
             data: data,
             success: function(data) {
                 $('#selectable li').last().after(
-                '<li class="ui-widget-content">' + 
+                '<li class="ui-widget-content" data-cntid="' + data.id + '">' + 
                     '<span class="editme1"><a href="#">' + data.firstname + '  '  + data.lastname +  '</a></span>' + 
                 '</li>');
             }
@@ -133,6 +133,19 @@ $(document).ready(function(){
         return false;
     });
     
+    $('#rm-contact').click( function(e){
+        var id = $('#selectable').find('.ui-selected').attr('data-cntid');
+        $.ajax({
+            url: window.location.protocol + '//' + window.location.host + '/abook/rmuser',
+            type: 'get',
+            dataType: 'json',
+            data: {contact_id : id},
+            success: function(res) {
+                console.log(res);
+                $('li[data-cntid="'+id+'"]').remove();
+            }
+        });
+    });
 });
 
 </script>
