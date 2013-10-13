@@ -11,7 +11,8 @@
   .info { display:inline-block; background:lightblue }
   #selectable .ui-selecting { background: lightblue; }
   #selectable .ui-selected { background: lightblue; }
-  #selectable { list-style-type: none; margin: 0; padding: 0; overflow-y:scroll; height:300px;}
+  #selectable { list-style-type: none; margin: 0; padding: 0; }
+  #selectul { overflow-y:scroll; height:300px; }
   .centered { text-align:center; padding:20px 0 }
 /*
 .container {
@@ -47,13 +48,15 @@
                                 <option data-grpid="<?php echo $group->id; ?>" ><?php echo $group->groupname; ?></option>
                             <?php } ?>
                         </select>
-                    <ul  id="selectable" class="nav nav-list" >
-                        <?php foreach($contacts as $contact){ ?>
-                            <li class="ui-widget-content" data-cntid="<?php echo $contact->getAttribute('id') ?>" data-cnt-grpid="<?php echo $contact->getAttribute('group_id') ?>">
-                                <span><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
-                            </li>
-                            <?php } ?>
-                    </ul>
+                    <div id = "selectul">
+                        <ul  id="selectable" class="nav nav-list" >
+                            <?php foreach($contacts as $contact){ ?>
+                                <li class="ui-widget-content" data-cntid="<?php echo $contact->getAttribute('id') ?>" data-cnt-grpid="<?php echo $contact->getAttribute('group_id') ?>">
+                                    <span><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
+                                </li>
+                                <?php } ?>
+                        </ul>
+                    </div>
                     <div class="centered">
                          <button id="add-new" class="btn">Add</button>&nbsp;
                          <button id="edit-contact" class="btn">Edit</button>&nbsp;
