@@ -139,9 +139,10 @@ $(document).ready(function(){
             data: data,
             success: function(data) {
                 $('#selectable li').last().after(
-                '<li class="ui-widget-content" data-cntid="' + data.id + '">' + 
-                    '<span class="editme1"><a href="#">' + data.firstname + '  '  + data.lastname +  '</a></span>' + 
+                '<li class="ui-widget-content ui-selectee" data-cntid="' + data.id + '" data-cnt-grpid="'+ data.group_id +'">' +
+                    '<span class="editme1 ui-selectee"><a href="#" class="ui-selectee">' + data.firstname + '  '  + data.lastname +  '</a></span>' +
                 '</li>');
+
             }
         });
         return false;
@@ -173,32 +174,32 @@ $(document).ready(function(){
             search_cnts(asked, grpid);
     });
     function search_cnts (asked, grpid) {
-           if(asked == ''){
-                if( grpid === '-1' ){
-                    $('#selectable li').show();     //show all
-                    return;
-                }
-                $('#selectable li[data-cnt-grpid='+grpid+']').siblings().hide();
-                $('#selectable li[data-cnt-grpid='+grpid+']').show();
+       if(asked == ''){
+            if( grpid === '-1' ){
+                $('#selectable li').show();     //show all
                 return;
             }
-            $('#selectable li span a').each( function(k,v){
-                var finded = $(v).text().match(asked);
-                var grpfinded = $(v).parent().parent().attr('data-cnt-grpid');
-                if( !finded ){
-                    $(v).parent().parent().hide();      //hide
-                    return;
-                }
-                if( grpid === '-1' ){
-                    $(v).parent().parent().show();
-                    return;
-                }
-                if(grpfinded === grpid){
-                    $(v).parent().parent().show();
-                    return;
-                }
-                $(v).parent().parent().hide();
-            });
+            $('#selectable li[data-cnt-grpid='+grpid+']').siblings().hide();
+            $('#selectable li[data-cnt-grpid='+grpid+']').show();
+            return;
+        }
+        $('#selectable li span a').each( function(k,v){
+            var finded = $(v).text().match(asked);
+            var grpfinded = $(v).parent().parent().attr('data-cnt-grpid');
+            if( !finded ){
+                $(v).parent().parent().hide();      //hide
+                return;
+            }
+            if( grpid === '-1' ){
+                $(v).parent().parent().show();
+                return;
+            }
+            if(grpfinded === grpid){
+                $(v).parent().parent().show();
+                return;
+            }
+            $(v).parent().parent().hide();
+        });
     }
 });
 
