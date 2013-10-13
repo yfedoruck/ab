@@ -31,6 +31,13 @@ class AbookController extends Controller
         $this->renderJSON($res);
     }
 
+    public function actionContact()
+    {
+        //Yii::app()->session['user_id']
+        $contact = Contact::model()->findByPk($_GET['contact_id']);
+        $this->renderJSON($contact);
+    }
+
     // Uncomment the following methods and override them if needed
     /*
     public function filters()

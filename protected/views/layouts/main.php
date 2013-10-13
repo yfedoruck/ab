@@ -12,7 +12,7 @@
   #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
   #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1em; height: 12px; }
 */
-  
+  .info { display:inline-block; background:lightblue }
   #selectable .ui-selecting { background: #FECA40; }
   #selectable .ui-selected { background: #F39814; color: white; }
   #selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
@@ -24,6 +24,9 @@
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.js"></script>
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.editinplace.js"></script>
         <script>
+            function l(x) {
+                return console.log(x);
+            }
             $(function() {
 /*
                 $( "#sortable" ).sortable();
@@ -32,15 +35,29 @@
                 
                 $("#selectable").selectable({
                     selected: function(event, ui) {
+                        var cntid = $(ui.selected).attr('data-cntid');
+        $.ajax({
+            url: window.location.protocol + '//' + window.location.host + '/abook/contact',
+            type: 'get',
+            dataType: 'json',
+            data: { contact_id: cntid },
+            success: function(data) {
+                $('#email').text(data.email);
+                $('#phone').text(data.phone);
+                $('#cntname').text(data.firstname + '  ' + data.lastname);
+            }
+        });
                         $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected").each(
-                            function(key,value){ $(value).find('*').removeClass("ui-selected"); }
+                            function(key,value){
+                                $(value).find('*').removeClass("ui-selected");
+                            }
                         );
                     }                   
                 });
             });
         </script>
-        <div class="”container”">
-            <h1><a href="”#”">Bootstrap Site</a></h1>
+        <div class="container">
+            <h1><a href="#">Bootstrap Site</a></h1>
             <div class="row">
                  <div class="span4">
                     <form>
@@ -73,20 +90,23 @@
                      </p>
                  </div>
                  <div class="span8">
-                     <?php //var_dump( get_class_methods( User::model() ) ); ?>
-
-                     <div class="editme1">photo Name</div>
+                     <div class="info">
+                        <div class="info"><img src = "<?php echo Yii::app()->request->baseUrl; ?>/img/placeholder.png"></img></div>
+                        <div class="info" id="cntname">&nbsp;&nbsp;</div>
+                     </div>
                      <div>
-                     <table border="1">
-                         <tr>
-                            <td>email</td>
-                            <td></td>
-                        </tr>
-                         <tr>
-                            <td>phone</td>
-                            <td></td>
-                        </tr>
-                     </table>
+                         <table border="0">
+                             <tr>
+                                <td><i class="icon-envelope"></i></td>
+                                <td>email</td>
+                                <td id="email">&nbsp;&nbsp;</td>
+                            </tr>
+                             <tr>
+                                <td><i class="icon-home"></i></td>
+                                <td>phone</td>
+                                <td id="phone">&nbsp;&nbsp;</td>
+                            </tr>
+                         </table>
                      </div>
                  </div>
              </div>
@@ -110,9 +130,7 @@
 </html>
 <script>
 $(document).ready(function(){
-    function l(x) {
-        return console.log(x);
-    }
+
     // All examples use the commit to function interface for ease of demonstration.
     // If you want to try it against a server, just comment the callback: and 
     // uncomment the url: lines.
@@ -123,6 +141,8 @@ $(document).ready(function(){
         // url: './server.php',
         //show_buttons: true
     //});
+    
+    /* add new user */
     $('#add-new').click(function(){
         $( "#new-user-form" ).dialog();
     });
@@ -148,6 +168,7 @@ $(document).ready(function(){
         return false;
     });
     
+    /* remove user */
     $('#rm-contact').click( function(e){
         var id = $('#selectable').find('.ui-selected').attr('data-cntid');
         $.ajax({
