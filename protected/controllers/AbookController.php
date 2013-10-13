@@ -8,6 +8,7 @@ class AbookController extends Controller
         $contact = new Contact();
         $contact->attributes = $_GET;
         $contact->user_id = Yii::app()->session['user_id'];
+
         try{
             $contact->save();
         }catch(Exception $e){

@@ -97,6 +97,13 @@
         Lastname: <input type="text" name="lastname" /><br>
         Phone: <input type="text" name="phone" /><br>
         EMail: <input type="text" name="email" /><br>
+        Group:
+            <select id="add-to-group" class="nav-header">
+                <?php foreach ($groups as $group) { ?>
+                    <option data-grpid="<?php echo $group->id; ?>" ><?php echo $group->groupname; ?></option>
+                <?php } ?>
+            </select>
+        <br>
         <button>Submit</button>
     </form>
     </body>
@@ -122,7 +129,8 @@ $(document).ready(function(){
     
     $('#new-user-form button').click( function(e){
         var q = e.target.value;
-        var data = $('form#new-user-form').serialize();
+        var data = $('form#new-user-form').serializeArray();
+        data.push({name: 'group_id', value: $('#add-to-group option:selected').attr('data-grpid') });
         console.log(data);
         $.ajax({
             url: window.location.protocol + '//' + window.location.host + '/abook/adduser',

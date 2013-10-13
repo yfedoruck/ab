@@ -10,7 +10,8 @@
  * @property string $email
  *
  * The followings are the available model relations:
- * @property Contacts[] $contacts
+ * @property Contact[] $contacts
+ * @property Ugroup[] $ugroups
  */
 class User extends CActiveRecord
 {
@@ -46,7 +47,8 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contacts' => array(self::HAS_MANY, 'Contacts', 'user_id'),
+			'contacts' => array(self::HAS_MANY, 'Contact', 'user_id'),
+			'ugroups' => array(self::HAS_MANY, 'Ugroup', 'user_id'),
 		);
 	}
 
