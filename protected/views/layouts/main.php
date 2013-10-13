@@ -5,8 +5,8 @@
         <title>Address book</title>
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css"  type="text/css"/>
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" /> 
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" href="/resources/demos/style.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" href="/resources/demos/style.css" />
   <style>
 /*
   #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
@@ -45,14 +45,15 @@
                  <div class="span4">
                     <form>
                       <fieldset>
-                        <input type="text" placeholder="Search your contacts">
+                        <input id="search" type="text" placeholder="Search your contacts">
                       </fieldset>
                     </form>
                     <?php $groups  = Ugroup::model()->findAllByAttributes( array('user_id' => 1) ); ?>
                     <?php $contacts  = Contact::model()->findAllByAttributes( array('user_id' => 1) ); ?>
-                        <select class="nav-header">
+                        <select id="groups" class="nav-header">
+                            <option data-grpid="-1" >All contacts<i class="icon-arrow-down"></i></option>
                             <?php foreach ($groups as $group) { ?>
-                                <option data-grpid="<?php echo $group->id; ?>" ><?php echo $group->groupname; ?><i class="icon-arrow-down"></i></option>
+                                <option data-grpid="<?php echo $group->id; ?>" ><?php echo $group->groupname; ?></option>
                             <?php } ?>
                         </select>
                     <ul  id="selectable" class="nav nav-list">
@@ -102,7 +103,9 @@
 </html>
 <script>
 $(document).ready(function(){
-    
+    function l(x) {
+        return console.log(x);
+    }
     // All examples use the commit to function interface for ease of demonstration.
     // If you want to try it against a server, just comment the callback: and 
     // uncomment the url: lines.
@@ -149,6 +152,58 @@ $(document).ready(function(){
             }
         });
     });
+
+    //console.log(
+
+    $('#groups').change( function(e) {
+        
+        var asked = $('#search').val();
+        
+        var grpid = $('#groups option:selected').attr('data-grpid');
+/*
+        if( grpid === '-1' ){
+            $('#selectable li').show();     //show all
+            return;
+        }
+        $('#selectable li[data-cnt-grpid='+grpid+']').siblings().hide();
+        $('#selectable li[data-cnt-grpid='+grpid+']').show();
+*/
+        search_cnts (asked, grpid);
+    });
+    
+    $('#search').keyup( function(e){
+            var grpid = $('#groups option:selected').attr('data-grpid');
+            var asked = e.target.value;
+            search_cnts(asked, grpid);
+    });
+    function search_cnts (asked, grpid) {
+           if(asked == ''){
+                if( grpid === '-1' ){
+                    $('#selectable li').show();     //show all
+                    return;
+                }
+                $('#selectable li[data-cnt-grpid='+grpid+']').siblings().hide();
+                $('#selectable li[data-cnt-grpid='+grpid+']').show();
+                return;
+            }
+            $('#selectable li span a').each( function(k,v){
+                var finded = $(v).text().match(asked);
+                var grpfinded = $(v).parent().parent().attr('data-cnt-grpid');
+                if( !finded ){
+                    $(v).parent().parent().hide();      //hide
+                    return;
+                }
+                if( grpid === '-1' ){
+                    $(v).parent().parent().show();
+                    return;
+                }
+                if(grpfinded === grpid){
+                    $(v).parent().parent().show();
+                    return;
+                }
+                $(v).parent().parent().hide();
+            });
+    }
 });
 
 </script>
