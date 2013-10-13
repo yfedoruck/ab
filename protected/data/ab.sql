@@ -26,6 +26,7 @@ CREATE TABLE contact (
     lastname VARCHAR(128) NOT NULL,
     email VARCHAR(128) NOT NULL,
     phone VARCHAR(128) NOT NULL,
+    UNIQUE KEY(firstname, lastname, group_id),
     CONSTRAINT `FK_cnt_usr` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `FK_cnt_grp` FOREIGN KEY (`group_id`) REFERENCES `ugroup`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
