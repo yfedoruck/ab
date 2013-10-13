@@ -153,21 +153,9 @@ $(document).ready(function(){
         });
     });
 
-    //console.log(
-
     $('#groups').change( function(e) {
-        
-        var asked = $('#search').val();
-        
         var grpid = $('#groups option:selected').attr('data-grpid');
-/*
-        if( grpid === '-1' ){
-            $('#selectable li').show();     //show all
-            return;
-        }
-        $('#selectable li[data-cnt-grpid='+grpid+']').siblings().hide();
-        $('#selectable li[data-cnt-grpid='+grpid+']').show();
-*/
+        var asked = $('#search').val();
         search_cnts (asked, grpid);
     });
     
