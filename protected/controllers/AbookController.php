@@ -5,7 +5,14 @@ class AbookController extends Controller
     public function actionAdduser()
     {
         $user = User::model()->findByPk(Yii::app()->session['user_id']);
-        $contact = new Contact();
+        $updated = 0;
+        if( $_GET['contact_id'] )
+        {
+            $contact = Contact::model()->findByPk($_GET['contact_id']);
+            $updated = 1;
+        }else{
+            $contact = new Contact();
+        }
         $contact->attributes = $_GET;
         $contact->user_id = Yii::app()->session['user_id'];
 
@@ -14,8 +21,9 @@ class AbookController extends Controller
         }catch(Exception $e){
             echo $e->getMessage();
         }
-
-        $this->renderJSON($contact->attributes);
+        $data = $contact->attributes;
+        $data['updated'] = $updated;
+        $this->renderJSON($data);
     }
     
     public function actionRmuser()
@@ -32,6 +40,12 @@ class AbookController extends Controller
     }
 
     public function actionContact()
+    {
+        //Yii::app()->session['user_id']
+        $contact = Contact::model()->findByPk($_GET['contact_id']);
+        $this->renderJSON($contact);
+    }
+    public function actionEditcontact()
     {
         //Yii::app()->session['user_id']
         $contact = Contact::model()->findByPk($_GET['contact_id']);

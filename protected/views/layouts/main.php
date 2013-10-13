@@ -13,6 +13,7 @@
   #selectable .ui-selected { background: lightblue; }
   #selectable { list-style-type: none; margin: 0; padding: 0; overflow-y:scroll; height:300px;}
   .centered { text-align:center; padding:20px 0 }
+  #update-group {height:20px; padding: 0}
 /*
 .container {
     box-sizing: border-box;
@@ -50,7 +51,8 @@
             success: function(data) {
                 $('#email').text(data.email);
                 $('#phone').text(data.phone);
-                $('#cntname').text(data.firstname + '  ' + data.lastname);
+                $('#firstname').text(data.firstname);
+                $('#lastname').text(data.lastname);
             }
         });
                         $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected").each(
@@ -82,28 +84,37 @@
                     <ul  id="selectable" class="nav nav-list" >
                         <?php foreach($contacts as $contact){ ?>
                             <li class="ui-widget-content" data-cntid="<?php echo $contact->getAttribute('id') ?>" data-cnt-grpid="<?php echo $contact->getAttribute('group_id') ?>">
-                                <span class="editme1"><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
+                                <span><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
                             </li>
                             <?php } ?>
                     </ul>
                     <div class="centered">
                          <button id="add-new" class="btn">Add</button>&nbsp;
+                         <button id="edit-contact" class="btn">Edit</button>&nbsp;
                          <button id="rm-contact" class="btn">Remove</button>
                     </div>
                  </div>
                  <div class="span9">
                      <div class="row">
                         <div class="span1"><img src = "<?php echo Yii::app()->request->baseUrl; ?>/img/placeholder.png"></img></div>
-                        <div class="span7" id="cntname">&nbsp;&nbsp;</div>
+                        <div class="span7" id="firstname">&nbsp;&nbsp;</div>
+                        <div class="span7" id="lastname">&nbsp;&nbsp;</div>
+                            <div class="span7" id="cntgroup">
+                                <select id="update-group">
+                                    <?php foreach ($groups as $group) { ?>
+                                        <option data-grpid="<?php echo $group->id; ?>" ><?php echo $group->groupname; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
                      </div>
                      <div class="row">
                             <div class="span1" ><i class="icon-envelope"></i></div>
                             <div class="span1" >email</div>
-                            <div class="span7" id="email">&nbsp;&nbsp;</div>
+                            <div class="span7 editme1" id="email">&nbsp;&nbsp;</div>
 
                             <div class="span1" ><i class="icon-home"></i></div>
                             <div class="span1" >phone</div>
-                            <div class="span7" id="phone">&nbsp;&nbsp;</div>
+                            <div class="span7 editme1" id="phone">&nbsp;&nbsp;</div>
                      </div>
 
                  </div>
@@ -111,6 +122,7 @@
         </div>
         
     <form id="new-user-form" style="display:none" >
+        <input type="hidden" name="contact_id" value="0" />
         Username: <input type="text" name="firstname" /><br>
         Lastname: <input type="text" name="lastname" /><br>
         Phone: <input type="text" name="phone" /><br>
@@ -134,14 +146,22 @@ $(document).ready(function(){
     // uncomment the url: lines.
     
     // The most basic form of using the inPlaceEditor
-    //$(".editme1").editInPlace({
-        //callback: function(unused, enteredText) { return enteredText; },
-        // url: './server.php',
-        //show_buttons: true
-    //});
+    $(".editme1").editInPlace({
+        url: window.location.protocol + '//' + window.location.host + '/abook/editcontact',
+        params: "name=david",
+        callback: function(unused, enteredText) { return enteredText; }
+    });
     
     /* add new user */
     $('#add-new').click(function(){
+        //clear fields
+        $('#new-user-form input[name="contact_id"]').val('0');
+        $('#new-user-form input[name="email"]').val('');
+        $('#new-user-form input[name="phone"]').val('');
+        $('#new-user-form input[name="firstname"]').val('');
+        $('#new-user-form input[name="lastname"]').val('');
+        $('#add-to-group option[data-grpid="-1"]').attr('selected','selected');
+
         $( "#new-user-form" ).dialog();
     });
     
@@ -156,16 +176,38 @@ $(document).ready(function(){
             dataType: 'json',
             data: data,
             success: function(data) {
-                $('#selectable li').last().after(
-                '<li class="ui-widget-content ui-selectee" data-cntid="' + data.id + '" data-cnt-grpid="'+ data.group_id +'">' +
-                    '<span class="editme1 ui-selectee"><a href="#" class="ui-selectee">' + data.firstname + '  '  + data.lastname +  '</a></span>' +
-                '</li>');
-
+                if(!data.updated){
+                    $('#selectable li').last().after(
+                    '<li class="ui-widget-content ui-selectee" data-cntid="' + data.id + '" data-cnt-grpid="'+ data.group_id +'">' +
+                        '<span ui-selectee"><a href="#" class="ui-selectee">' + data.firstname + '  '  + data.lastname +  '</a></span>' +
+                    '</li>');
+                }
             }
         });
         return false;
     });
+
+    /* edit contact */
+
+    $('#edit-contact').click(function(){
+        var grp = $('.ui-selected').attr('data-cnt-grpid');
+        var contact_id = $('.ui-selected').attr('data-cntid');
+        var email = $('#email').text();
+        var phone = $('#phone').text();
+        var firstname = $('#firstname').text();
+        var lastname = $('#lastname').text();
+
+        $('#new-user-form input[name="contact_id"]').val(contact_id);
+        $('#new-user-form input[name="email"]').val(email);
+        $('#new-user-form input[name="phone"]').val(phone);
+        $('#new-user-form input[name="firstname"]').val(firstname);
+        $('#new-user-form input[name="lastname"]').val(lastname);
+        $('#add-to-group option[data-grpid="'+grp+'"]').attr('selected','selected');
+        $( "#new-user-form" ).dialog();
+    });
+
     
+
     /* remove user */
     $('#rm-contact').click( function(e){
         var id = $('#selectable').find('.ui-selected').attr('data-cntid');
