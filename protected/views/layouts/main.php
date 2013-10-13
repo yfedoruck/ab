@@ -8,14 +8,11 @@
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         <link rel="stylesheet" href="/resources/demos/style.css" />
   <style>
-/*
-  #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
-  #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1em; height: 12px; }
-*/
   .info { display:inline-block; background:lightblue }
-  #selectable .ui-selecting { background: #FECA40; }
-  #selectable .ui-selected { background: #F39814; color: white; }
-  #selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #selectable .ui-selecting { background: lightblue; }
+  #selectable .ui-selected { background: lightblue; }
+  #selectable { list-style-type: none; margin: 0; padding: 0; overflow-y:scroll; height:300px;}
+  .centered { text-align:center; padding:20px 0 }
 /*
 .container {
     box-sizing: border-box;
@@ -82,17 +79,17 @@
                                 <option data-grpid="<?php echo $group->id; ?>" ><?php echo $group->groupname; ?></option>
                             <?php } ?>
                         </select>
-                    <ul  id="selectable" class="nav nav-list">
+                    <ul  id="selectable" class="nav nav-list" >
                         <?php foreach($contacts as $contact){ ?>
                             <li class="ui-widget-content" data-cntid="<?php echo $contact->getAttribute('id') ?>" data-cnt-grpid="<?php echo $contact->getAttribute('group_id') ?>">
                                 <span class="editme1"><a href="#"><?php echo $contact->getAttribute('firstname') .'  '. $contact->getAttribute('lastname'); ?></a></span>
                             </li>
                             <?php } ?>
                     </ul>
-                    
+                    <div class="centered">
                          <button id="add-new" class="btn">Add</button>&nbsp;
                          <button id="rm-contact" class="btn">Remove</button>
-                    
+                    </div>
                  </div>
                  <div class="span9">
                      <div class="row">

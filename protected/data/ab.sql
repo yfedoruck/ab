@@ -83,5 +83,7 @@ INSERT INTO contact (user_id, group_id, firstname, lastname, email, phone) VALUE
 INSERT INTO contact (user_id, group_id, firstname, lastname, email, phone) VALUES (1, 1, 'test20', 'lastname20', 'test20@example.com', '1234567890');
 INSERT INTO contact (user_id, group_id, firstname, lastname, email, phone) VALUES (1, 1, 'test21', 'lastname21', 'test21@example.com', '1234567890');
 
+update contact set group_id=2 where id >7 and id <12;
+update contact set group_id=3 where id >=12;
 
 set foreign_key_checks = 1;
