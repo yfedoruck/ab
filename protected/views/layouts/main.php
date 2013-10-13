@@ -13,7 +13,6 @@
   #selectable .ui-selected { background: lightblue; }
   #selectable { list-style-type: none; margin: 0; padding: 0; overflow-y:scroll; height:300px;}
   .centered { text-align:center; padding:20px 0 }
-  #update-group {height:20px; padding: 0}
 /*
 .container {
     box-sizing: border-box;
@@ -35,26 +34,24 @@
                 return console.log(x);
             }
             $(function() {
-/*
-                $( "#sortable" ).sortable();
-                $( "#sortable" ).disableSelection();
-*/
-                
                 $("#selectable").selectable({
                     selected: function(event, ui) {
+                        $( "#new-user-form" ).dialog( "close" );
                         var cntid = $(ui.selected).attr('data-cntid');
-        $.ajax({
-            url: window.location.protocol + '//' + window.location.host + '/abook/contact',
-            type: 'get',
-            dataType: 'json',
-            data: { contact_id: cntid },
-            success: function(data) {
-                $('#email').text(data.email);
-                $('#phone').text(data.phone);
-                $('#firstname').text(data.firstname);
-                $('#lastname').text(data.lastname);
-            }
-        });
+                        
+                        //fill left part
+                        $.ajax({
+                            url: window.location.protocol + '//' + window.location.host + '/abook/contact',
+                            type: 'get',
+                            dataType: 'json',
+                            data: { contact_id: cntid },
+                            success: function(data) {
+                                $('#email').text(data.email);
+                                $('#phone').text(data.phone);
+                                $('#firstname').text(data.firstname);
+                                $('#lastname').text(data.lastname);
+                            }
+                        });
                         $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected").each(
                             function(key,value){
                                 $(value).find('*').removeClass("ui-selected");
@@ -97,24 +94,17 @@
                  <div class="span9">
                      <div class="row">
                         <div class="span1"><img src = "<?php echo Yii::app()->request->baseUrl; ?>/img/placeholder.png"></img></div>
-                        <div class="span7" id="firstname">&nbsp;&nbsp;</div>
-                        <div class="span7" id="lastname">&nbsp;&nbsp;</div>
-                            <div class="span7" id="cntgroup">
-                                <select id="update-group">
-                                    <?php foreach ($groups as $group) { ?>
-                                        <option data-grpid="<?php echo $group->id; ?>" ><?php echo $group->groupname; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
+                        <div class="span1" id="firstname">&nbsp;&nbsp;</div>
+                        <div class="span1" id="lastname">&nbsp;&nbsp;</div>
                      </div>
                      <div class="row">
                             <div class="span1" ><i class="icon-envelope"></i></div>
                             <div class="span1" >email</div>
-                            <div class="span7 editme1" id="email">&nbsp;&nbsp;</div>
+                            <div class="span7" id="email">&nbsp;&nbsp;</div>
 
                             <div class="span1" ><i class="icon-home"></i></div>
                             <div class="span1" >phone</div>
-                            <div class="span7 editme1" id="phone">&nbsp;&nbsp;</div>
+                            <div class="span7" id="phone">&nbsp;&nbsp;</div>
                      </div>
 
                  </div>
@@ -141,17 +131,6 @@
 <script>
 $(document).ready(function(){
 
-    // All examples use the commit to function interface for ease of demonstration.
-    // If you want to try it against a server, just comment the callback: and 
-    // uncomment the url: lines.
-    
-    // The most basic form of using the inPlaceEditor
-    $(".editme1").editInPlace({
-        url: window.location.protocol + '//' + window.location.host + '/abook/editcontact',
-        params: "name=david",
-        callback: function(unused, enteredText) { return enteredText; }
-    });
-    
     /* add new user */
     $('#add-new').click(function(){
         //clear fields
@@ -181,6 +160,9 @@ $(document).ready(function(){
                     '<li class="ui-widget-content ui-selectee" data-cntid="' + data.id + '" data-cnt-grpid="'+ data.group_id +'">' +
                         '<span ui-selectee"><a href="#" class="ui-selectee">' + data.firstname + '  '  + data.lastname +  '</a></span>' +
                     '</li>');
+                    $( "#new-user-form" ).dialog( "close" );
+                }else{
+                    document.location.href = "index.php";
                 }
             }
         });
@@ -190,19 +172,7 @@ $(document).ready(function(){
     /* edit contact */
 
     $('#edit-contact').click(function(){
-        var grp = $('.ui-selected').attr('data-cnt-grpid');
-        var contact_id = $('.ui-selected').attr('data-cntid');
-        var email = $('#email').text();
-        var phone = $('#phone').text();
-        var firstname = $('#firstname').text();
-        var lastname = $('#lastname').text();
-
-        $('#new-user-form input[name="contact_id"]').val(contact_id);
-        $('#new-user-form input[name="email"]').val(email);
-        $('#new-user-form input[name="phone"]').val(phone);
-        $('#new-user-form input[name="firstname"]').val(firstname);
-        $('#new-user-form input[name="lastname"]').val(lastname);
-        $('#add-to-group option[data-grpid="'+grp+'"]').attr('selected','selected');
+        fill_form();
         $( "#new-user-form" ).dialog();
     });
 
@@ -261,6 +231,21 @@ $(document).ready(function(){
             }
             $(v).parent().parent().hide();
         });
+    }
+    function fill_form(){
+        var grp = $('.ui-selected').attr('data-cnt-grpid');
+        var contact_id = $('.ui-selected').attr('data-cntid');
+        var email = $('#email').text();
+        var phone = $('#phone').text();
+        var firstname = $('#firstname').text();
+        var lastname = $('#lastname').text();
+
+        $('#new-user-form input[name="contact_id"]').val(contact_id);
+        $('#new-user-form input[name="email"]').val(email);
+        $('#new-user-form input[name="phone"]').val(phone);
+        $('#new-user-form input[name="firstname"]').val(firstname);
+        $('#new-user-form input[name="lastname"]').val(lastname);
+        $('#add-to-group option[data-grpid="'+grp+'"]').attr('selected','selected');
     }
 });
 
