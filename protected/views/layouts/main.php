@@ -7,24 +7,7 @@
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" /> 
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         <link rel="stylesheet" href="/resources/demos/style.css" />
-  <style>
-  .info { display:inline-block; background:lightblue }
-  #selectable .ui-selecting { background: lightblue; }
-  #selectable .ui-selected { background: lightblue; }
-  #selectable { list-style-type: none; margin: 0; padding: 0; }
-  #selectul { overflow-y:scroll; height:300px; }
-  .centered { text-align:center; padding:20px 0 }
-  label.error {color: #ff0000;}
-/*
-.container {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;  /* FireFox requires the -moz- prefix */
-    width: 952px;
-    padding: 5px;
-    border: 1px solid blue;
-}
-*/
-  </style>
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ab.css" />
     <body>
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.5.min.js" type="text/javascript"></script>

@@ -82,10 +82,20 @@ $(document).ready(function(){
                     '<li class="ui-widget-content ui-selectee" data-cntid="' + data.id + '" data-cnt-grpid="'+ data.group_id +'">' +
                         '<span ui-selectee"><a href="#" class="ui-selectee">' + data.firstname + '  '  + data.lastname +  '</a></span>' +
                     '</li>');
-                    $( "#new-user-form" ).dialog( "close" );
                 }else{
-                    document.location.href = "index.php";
+					$('li[data-cntid="' + data.id + '"] span a').text(data.firstname + '  ' + data.lastname);
+					var grp = $('li[data-cntid="' + data.id + '"]').attr('data-cnt-grpid');
+					if ( $('#groups option:selected').attr('data-grpid') !== '-1' && grp !== data.group_id ){
+						$('li[data-cntid="' + data.id + '"]').hide();
+					}
+					$('li[data-cntid="' + data.id + '"]').attr('data-cnt-grpid', data.group_id);
+					$('#firstname').text(data.firstname);
+					$('#lastname').text(data.lastname);
+					$('#email').text(data.email);
+					$('#phone').text(data.phone);
+                    //document.location.href = "index.php";
                 }
+                $( "#new-user-form" ).dialog( "close" );
             }
         });
         return false;

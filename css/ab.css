@@ -1,0 +1,15 @@
+#selectable .ui-selecting { background: lightblue; }
+#selectable .ui-selected { background: lightblue; }
+#selectable { list-style-type: none; margin: 0; padding: 0; }
+#selectul { overflow-y:scroll; height:300px; }
+.centered { text-align:center; padding:20px 0 }
+label.error {color: #ff0000;}
+/*
+.container {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;  
+	width: 952px;
+	padding: 5px;
+	border: 1px solid blue;
+}
+*/
