@@ -77,15 +77,19 @@ $(document).ready(function(){
             dataType: 'json',
             data: data,
             success: function(data) {
+				var gGroup = $('#groups option:selected').attr('data-grpid');
                 if(!data.updated){
                     $('#selectable li').last().after(
                     '<li class="ui-widget-content ui-selectee" data-cntid="' + data.id + '" data-cnt-grpid="'+ data.group_id +'">' +
                         '<span ui-selectee"><a href="#" class="ui-selectee">' + data.firstname + '  '  + data.lastname +  '</a></span>' +
                     '</li>');
+                    if( gGroup !== '-1' && gGroup !== data.group_id ){
+						$('li[data-cntid="' + data.id + '"]').hide();
+					}
                 }else{
 					$('li[data-cntid="' + data.id + '"] span a').text(data.firstname + '  ' + data.lastname);
 					var grp = $('li[data-cntid="' + data.id + '"]').attr('data-cnt-grpid');
-					if ( $('#groups option:selected').attr('data-grpid') !== '-1' && grp !== data.group_id ){
+					if ( gGroup !== '-1' && grp !== data.group_id ){
 						$('li[data-cntid="' + data.id + '"]').hide();
 					}
 					$('li[data-cntid="' + data.id + '"]').attr('data-cnt-grpid', data.group_id);
