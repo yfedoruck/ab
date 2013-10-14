@@ -125,6 +125,10 @@ $(document).ready(function(){
             success: function(res) {
                 console.log(res);
                 $('li[data-cntid="'+id+'"]').remove();
+				$('#firstname').html("&nbsp;&nbsp;");
+				$('#lastname').html("&nbsp;&nbsp;");
+				$('#email').html("&nbsp;&nbsp;");
+				$('#phone').html("&nbsp;&nbsp;");
             }
         });
     });
