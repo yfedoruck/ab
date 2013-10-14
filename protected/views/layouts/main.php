@@ -14,6 +14,7 @@
   #selectable { list-style-type: none; margin: 0; padding: 0; }
   #selectul { overflow-y:scroll; height:300px; }
   .centered { text-align:center; padding:20px 0 }
+  label.error {color: #ff0000;}
 /*
 .container {
     box-sizing: border-box;
@@ -29,6 +30,8 @@
         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.5.min.js" type="text/javascript"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.js"></script>
+        <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.validate.min.js"></script>
+        <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/additional-methods.min.js"></script>
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/ab.js"></script>
 
         <div class="container">
@@ -85,10 +88,14 @@
         
     <form id="new-user-form" style="display:none" >
         <input type="hidden" name="contact_id" value="0" />
-        Username: <input type="text" name="firstname" /><br>
-        Lastname: <input type="text" name="lastname" /><br>
-        Phone: <input type="text" name="phone" /><br>
-        EMail: <input type="text" name="email" /><br>
+			<label for="firstname">Firstname:</label>
+				<input type="text" name="firstname" class="required" />
+			<label for="lastname">Lastname: </label>
+				<input type="text" name="lastname" class="required" />
+			<label for="phone">Phone: </label>
+				<input type="text" name="phone" />
+			<label for="email">Email: </label>
+				<input type="text" name="email" class="required" />
         Group:
             <select id="add-to-group" class="nav-header">
                 <?php foreach ($groups as $group) { ?>

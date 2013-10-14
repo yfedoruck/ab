@@ -1,5 +1,31 @@
 //function l(x) { return console.log(x); }
 $(document).ready(function(){
+	$.validator.setDefaults({
+		debug: true,
+		success: "valid"
+	});
+	var usrform = $("#new-user-form")
+	usrform.validate({
+	  rules: {
+		firstname: {
+			required: true,
+			alphanumeric: true
+		},
+		lastname: {
+			required: true,
+			alphanumeric: true
+		},
+		phone: {
+			digits: true
+		},
+		email: {
+			required: true,
+			email: true
+		},
+		plan: "required",
+	  }
+	});
+	
     $("#selectable").selectable({
         selected: function(event, ui) {
             $( "#new-user-form" ).dialog( "close" );
@@ -40,6 +66,7 @@ $(document).ready(function(){
     });
     
     $('#new-user-form button').click( function(e){
+		if ( usrform.valid() === false ) { return; }
         var q = e.target.value;
         var data = $('form#new-user-form').serializeArray();
         data.push({name: 'group_id', value: $('#add-to-group option:selected').attr('data-grpid') });
