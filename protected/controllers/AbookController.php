@@ -51,6 +51,19 @@ class AbookController extends Controller
         $contact = Contact::model()->findByPk($_GET['contact_id']);
         $this->renderJSON($contact);
     }
+    public function actionAddgroup(){
+        $group = new Ugroup();
+        $group->attributes = $_GET;
+        $group->user_id = Yii::app()->session['user_id'];
+        try{
+            $res = $group->save();
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
+
+        $this->renderJSON($group->attributes);
+    }
+
 
     // Uncomment the following methods and override them if needed
     /*

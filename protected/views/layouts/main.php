@@ -33,6 +33,7 @@
                             <?php foreach ($groups as $group) { ?>
                                 <option data-grpid="<?php echo $group->id; ?>" ><?php echo $group->groupname; ?></option>
                             <?php } ?>
+                            <option id="newgrp" data-grpid="-1" >...</option>
                         </select>
                     <div id = "selectul">
                         <ul  id="selectable" class="nav nav-list" >
@@ -68,17 +69,17 @@
                  </div>
              </div>
         </div>
-        
+<!-- FORM VIEW -->
     <form id="new-user-form" style="display:none" >
         <input type="hidden" name="contact_id" value="0" />
-			<label for="firstname">Firstname:</label>
-				<input type="text" name="firstname" class="required" />
-			<label for="lastname">Lastname: </label>
-				<input type="text" name="lastname" class="required" />
-			<label for="phone">Phone: </label>
-				<input type="text" name="phone" />
-			<label for="email">Email: </label>
-				<input type="text" name="email" class="required" />
+            <label for="firstname">Firstname:</label>
+                <input type="text" name="firstname" class="required" />
+            <label for="lastname">Lastname: </label>
+                <input type="text" name="lastname" class="required" />
+            <label for="phone">Phone: </label>
+                <input type="text" name="phone" />
+            <label for="email">Email: </label>
+                <input type="text" name="email" class="required" />
         Group:
             <select id="add-to-group" class="nav-header">
                 <?php foreach ($groups as $group) { ?>
@@ -88,5 +89,11 @@
         <br>
         <button>Submit</button>
     </form>
+<!-- NEW GROUP DIALOG  -->
+<form id="grpbox" style="display:none">
+    <input type="text" name="groupname"></text>
+    <button type="button">Add</button>
+</form>
+
     </body>
 </html>
