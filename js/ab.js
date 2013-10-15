@@ -25,7 +25,15 @@ $(document).ready(function(){
         plan: "required",
       }
     });
-    
+    var addgrp = $("#grpbox");
+    addgrp.validate({
+      rules: {
+        groupname : {
+            required: true,
+            alphanumeric: true
+        }
+      }
+    });
     $("#selectable").selectable({
         selected: function(event, ui) {
             $( "#new-user-form" ).dialog( "close" );
@@ -59,6 +67,7 @@ $(document).ready(function(){
         });
     });
     $('#grpbox button').click(function(){
+        if ( addgrp.valid() === false ) { return; }
         $.ajax({
             url: window.location.protocol + '//' + window.location.host + '/abook/addgroup',
             type: 'get',

@@ -91,7 +91,8 @@
     </form>
 <!-- NEW GROUP DIALOG  -->
 <form id="grpbox" style="display:none">
-    <input type="text" name="groupname"></text>
+    <label for="groupname">Group name:</label>
+    <input type="text" name="groupname" class="required" ></text>
     <button type="button">Add</button>
 </form>
 
