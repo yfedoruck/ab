@@ -1,5 +1,30 @@
 //function l(x) { return console.log(x); }
 $(document).ready(function(){
+    /* simpe js login */
+    if( $('#checklogin').val() !== "1" ){
+        $.blockUI({ message: $('#loginForm') }); 
+        $('#loginForm input[type="password"]').keyup(function(e){
+            if(e.keyCode == 13) {
+                $.ajax({
+                    url: window.location.protocol + '//' + window.location.host + '/abook/login',
+                    type: 'get',
+                    data: { 
+                        username : $('#loginForm input[type="text"]').val(),
+                        password : $('#loginForm input[type="password"]').val(), },
+                    success: function(data) {
+                        if (data.success){
+                            $('#checklogin').val('1');
+                            $.unblockUI();
+                        }else {
+                            alert('Oh, no! I can\'t believe! You really have made mistake typing test1/test1 !');
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    /* validation */
     $.validator.setDefaults({
         debug: true,
         success: "valid"

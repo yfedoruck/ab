@@ -24,6 +24,8 @@ class Controller extends CController
     public function beforeAction($action){
         parent::beforeAction($action);
         $app = Yii::app();
+        if(!$app->session['user_id']){
+            return true; }
         //$id = $app->request->getQuery('user_id');
         //if( !$id && !Yii::app()->session['user_id'] ){
             //echo 'user_id not defined';
@@ -32,7 +34,6 @@ class Controller extends CController
         //if( !Yii::app()->session['user_id'] ) {
             //Yii::app()->session['user_id'] = $id;
         //}
-        Yii::app()->session['user_id'] = 1;
         $user = User::model()->findByPk(Yii::app()->session['user_id']);
         if( !$user ){
             throw new CHttpException(404, 'User not exists.');

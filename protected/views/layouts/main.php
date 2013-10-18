@@ -15,6 +15,7 @@
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.js"></script>
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.validate.min.js"></script>
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/additional-methods.min.js"></script>
+        <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.blockUI.js"></script>
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/ab.js"></script>
 
         <div class="container">
@@ -96,5 +97,11 @@
     <button type="button">Add</button>
 </form>
 
+<!-- LOGIN DIALOG -->
+<div style="display: none;" id="loginForm">
+    <input type="hidden" id="checklogin" name="checklogin" value="<?php echo Yii::app()->session['logged']; ?>" />
+    <p><label>Username: (test1)</label><input type="text" name="username"></p>
+    <p><label>Password: (test1)</label><input type="password" name="password"></p>
+</div>
     </body>
 </html>

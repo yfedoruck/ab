@@ -2,6 +2,20 @@
 
 class AbookController extends Controller
 {
+    public function actionLogin()
+    {
+        $user = User::model()->findByAttributes( array( 'username' => $_GET['username'],  'password' => $_GET['password'] ) );
+        $result = array();
+        if($user) {
+            Yii::app()->session['user_id'] = $user->id;
+            Yii::app()->session['logged'] = 1;
+            $result['success'] = 1;
+        }else{
+            $result['fail'] = 1;
+        }
+
+        $this->renderJSON($result);
+    }
     public function actionAdduser()
     {
         $user = User::model()->findByPk(Yii::app()->session['user_id']);
